@@ -228,3 +228,8 @@ DEF_HELPER_3(rcrl, tl, env, tl, tl)
 DEF_HELPER_3(rclq, tl, env, tl, tl)
 DEF_HELPER_3(rcrq, tl, env, tl, tl)
 #endif
+
+
+#ifdef CONFIG_FUZZY
+DEF_HELPER_1(onCustomInstruction, void, i64)
+#endif

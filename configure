@@ -769,6 +769,9 @@ for opt do
   --disable-modules)
       modules="no"
   ;;
+  --enable-fuzzy)
+      fuzzy="yes"
+  ;;
   --cpu=*)
   ;;
   --target-list=*) target_list="$optarg"
@@ -1313,6 +1316,7 @@ disabled with --disable-FEATURE, default is enabled if available:
   guest-agent-msi build guest agent Windows MSI installation package
   pie             Position Independent Executables
   modules         modules support
+  fuzzy 		  fuzz with AFL support
   debug-tcg       TCG debugging (default is disabled)
   debug-info      debugging information
   sparse          sparse checker
@@ -4732,6 +4736,7 @@ if test "$slirp" = "yes" ; then
     echo "smbd              $smbd"
 fi
 echo "module support    $modules"
+echo "fuzzy AFL support $fuzzy"
 echo "host CPU          $cpu"
 echo "host big endian   $bigendian"
 echo "target list       $target_list"
@@ -5013,6 +5018,9 @@ if test "$modules" = "yes"; then
   # like as an symbol. So prefix it with an underscore
   echo "CONFIG_STAMP=_`(echo $qemu_version; echo $pkgversion; cat $0) | $shacmd - | cut -f1 -d\ `" >> $config_host_mak
   echo "CONFIG_MODULES=y" >> $config_host_mak
+fi
+if test "$fuzzy" = "yes"; then
+  echo "CONFIG_FUZZY=y" >> $config_host_mak
 fi
 if test "$sdl" = "yes" ; then
   echo "CONFIG_SDL=y" >> $config_host_mak

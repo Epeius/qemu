@@ -104,6 +104,14 @@ obj-$(CONFIG_LIBDECNUMBER) += libdecnumber/dpd/decimal64.o
 obj-$(CONFIG_LIBDECNUMBER) += libdecnumber/dpd/decimal128.o
 
 #########################################################
+# Fuzzy AFL support
+ifdef CONFIG_FUZZY
+
+obj-y += fuzzy/
+
+endif #CONFIG_FUZZY
+
+#########################################################
 # Linux user emulator target
 
 ifdef CONFIG_LINUX_USER

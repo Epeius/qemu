@@ -385,6 +385,18 @@ static inline intptr_t QEMU_ARTIFICIAL GET_TCGV_PTR(TCGv_ptr t)
 #define TCG_CALL_DUMMY_TCGV     MAKE_TCGV_I32(-1)
 #define TCG_CALL_DUMMY_ARG      ((TCGArg)(-1))
 
+/* call flags */
+/* A pure function only reads its arguments and TCG global variables
+   and cannot raise exceptions. Hence a call to a pure function can be
+   safely suppressed if the return value is not used. */
+#define TCG_CALL_PURE           0x0010
+/* A const function only reads its arguments and does not use TCG
+   global variables. Hence a call to such a function does not
+   save TCG global variables back to their canonical location. */
+#define TCG_CALL_CONST          0x0020
+
+
+
 /* Conditions.  Note that these are laid out for easy manipulation by
    the functions below:
      bit 0 is used for inverting;

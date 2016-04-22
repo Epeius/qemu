@@ -33,6 +33,10 @@
 #endif
 #include "sysemu/replay.h"
 
+#ifdef CONFIG_FUZZY
+#include "FuzzyState.h"
+#endif
+
 /* -icount align implementation. */
 
 typedef struct SyncClocks {

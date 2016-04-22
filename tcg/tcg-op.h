@@ -323,6 +323,46 @@ static inline void tcg_gen_mov_i32(TCGv_i32 ret, TCGv_i32 arg)
     }
 }
 
+// why we add here
+
+/* helper calls */
+static inline void tcg_gen_helperN(void *func, TCGArg ret, int nargs, TCGArg *args)
+{
+    TCGv_ptr fn;
+    fn = tcg_const_ptr(func);
+    tcg_gen_callN(&tcg_ctx, fn, ret,
+                  nargs, args);
+    tcg_temp_free_ptr(fn);
+}
+/* Note: Both tcg_gen_helper32() and tcg_gen_helper64() are currently
+   reserved for helpers in tcg-runtime.c. These helpers are all const
+   and pure, hence the call to tcg_gen_callN() with TCG_CALL_CONST |
+   TCG_CALL_PURE. This may need to be adjusted if these functions
+   start to be used with other helpers. */
+static inline void tcg_gen_helper32(void *func,TCGv_i32 ret,
+                                    TCGv_i32 a, TCGv_i32 b)
+{
+    TCGv_ptr fn;
+    TCGArg args[2];
+    fn = tcg_const_ptr(func);
+    args[0] = GET_TCGV_I32(a);
+    args[1] = GET_TCGV_I32(b);
+    tcg_gen_callN(&tcg_ctx, fn, GET_TCGV_I32(ret), 2, args);
+    tcg_temp_free_ptr(fn);
+}
+
+static inline void tcg_gen_helper64(void *func, TCGv_i64 ret,
+                                    TCGv_i64 a, TCGv_i64 b)
+{
+    TCGv_ptr fn;
+    TCGArg args[2];
+    fn = tcg_const_ptr(func);
+    args[0] = GET_TCGV_I64(a);
+    args[1] = GET_TCGV_I64(b);
+    tcg_gen_callN(&tcg_ctx, fn, GET_TCGV_I64(ret), 2, args);
+    tcg_temp_free_ptr(fn);
+}
+
 static inline void tcg_gen_movi_i32(TCGv_i32 ret, int32_t arg)
 {
     tcg_gen_op2i_i32(INDEX_op_movi_i32, ret, arg);

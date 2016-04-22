@@ -30,6 +30,10 @@
 #include "trace-tcg.h"
 #include "exec/log.h"
 
+#ifdef CONFIG_FUZZY
+#include "fuzzy-qemu.h"
+#endif
+
 
 #define PREFIX_REPZ   0x01
 #define PREFIX_REPNZ  0x02
@@ -4496,6 +4500,19 @@ static target_ulong disas_insn(CPUX86State *env, DisasContext *s,
     /* now check op code */
  reswitch:
     switch(b) {
+        case 0x13f: /* fuzzy_op */
+        {
+#ifdef CONFIG_FUZZY
+            uint64_t arg = cpu_ldq_code(env, s->pc);
+            fuzzy_tcg_emit_custom_instruction(arg);
+#else
+            /* Simply skip the Fuzzy opcodes when building vanilla qemu */
+            cpu_ldq_code(env, s->pc);
+#endif
+            s->pc+=8;
+            break;
+        }
+
     case 0x0f:
         /**************************/
         /* extended op code */
