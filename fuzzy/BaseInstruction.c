@@ -15,6 +15,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include "OpCode.h"
+#include "WallTimerWrapper.h"
 
 void fuzzy_tcg_emit_custom_instruction(uint64_t arg)
 {
@@ -31,6 +32,11 @@ void handleBuiltInOps(uint64_t opcode)
     switch ((opcode >> OPSHIFT) & 0xFF) {
         case 0: { /* fuzzy_version */
             fuzzy_version();
+            break;
+        }
+        case 1: { /* Test time */
+            CurTIme();
+            break;
         }
             break;
         default:
@@ -57,3 +63,12 @@ void fuzzy_version(void)
     Fuzzy_write_register(eax_reg, &cur_EAX);
 }
 
+// Test Functions
+void CurTIme(void)
+{
+    struct WallTimerWrapper * wtw = WallTimer_GetInstance();
+    printf("Cur time_second is %d, time_usecond is %d.\n", \
+            WallTimer_GetSeconds(wtw), \
+            WallTimer_GetUSeconds(wtw));
+    return;
+}

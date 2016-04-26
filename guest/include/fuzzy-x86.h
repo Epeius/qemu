@@ -20,7 +20,7 @@ static inline int fuzzy_version(void)
 }
 
 /** Enable symbolic execution. */
-static inline void fuzzy_enable_symbolic(void)
+static inline void fuzzy_CurTime(void)
 {
     __asm__ __volatile__(
         FUZZY_INSTRUCTION_SIMPLE(01)

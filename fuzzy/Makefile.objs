@@ -1,2 +1,4 @@
 obj-y += BaseInstruction.o
 obj-y += FuzzyState.o
+obj-y += WallTimer.o
+obj-y += WallTimerWrapper.o

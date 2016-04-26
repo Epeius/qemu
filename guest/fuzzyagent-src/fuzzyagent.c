@@ -6,7 +6,7 @@
 #include <fcntl.h>
 #include <libgen.h>
 #include <errno.h>
-
+#include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -19,10 +19,8 @@
 
 int main(int argc, const char **argv)
 {
-    printf("Waiting for fuzzy mode...\n");
-    while (fuzzy_version() == 0)
-        /* nothing */;
-    printf("... fuzzy mode detected\n");
-    return 0;
+    char cmd[] = "/home/epeius/target/jpeg-9a/rdjpgcom testimg.jpg";
+    fuzzy_CurTime();
+    system(cmd);
+    fuzzy_CurTime();
 }
-

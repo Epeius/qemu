@@ -44,6 +44,18 @@ void Fuzzy_void();
 }
 #endif
 
+#ifdef __cplusplus
+namespace fuzzyqemu {
+    struct WallTimer;
+}
+using fuzzyqemu::WallTimer;
+#else
+struct WallTimer;
+
+#endif
+
+
+
 /* segment registers */
 #define es_reg 100
 #define cs_reg 101
